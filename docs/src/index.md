@@ -1,4 +1,4 @@
-# JuliaPythonSnippets.jl
+# julia-python-snippets
 
 ```@index
 ```

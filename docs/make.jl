@@ -6,12 +6,12 @@ makedocs(;
     pages=[
         "Home" => "index.md",
     ],
-    repo="https://github.com/tkf/JuliaPythonSnippets.jl/blob/{commit}{path}#L{line}",
-    sitename="JuliaPythonSnippets.jl",
+    repo="https://github.com/tkf/julia-python-snippets/blob/{commit}{path}#L{line}",
+    sitename="julia-python-snippets",
     authors="Takafumi Arakaki",
     assets=[],
 )
 
 deploydocs(;
-    repo="github.com/tkf/JuliaPythonSnippets.jl",
+    repo="github.com/tkf/julia-python-snippets",
 )
