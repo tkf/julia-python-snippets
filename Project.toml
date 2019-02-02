@@ -3,6 +3,10 @@ uuid = "f95b24bc-26ae-11e9-3860-5f1432dce5b7"
 authors = ["Takafumi Arakaki <aka.tkf@gmail.com>"]
 version = "0.1.0"
 
+[deps]
+Markdown = "d6f4376e-aef5-505a-96c1-9c027394607a"
+PyCall = "438e738f-606a-5dbb-bf0a-cddfbfd45ab0"
+
 [extras]
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 
