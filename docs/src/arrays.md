@@ -41,3 +41,20 @@ assert a2.dtype == numpy.dtype("f4")
 """
 end
 ```
+
+## Comparison
+
+```@example zeros_ones_empty
+@assert a0 == zero(a0)
+@assert all(a0 .== 0)
+```
+
+```@eval
+using JuliaPythonSnippets
+@named zeros_ones_empty begin
+pyexample"""
+assert all(a0 == numpy.zeros_like(a0))
+assert all(a0 == 0)
+"""
+end
+```
