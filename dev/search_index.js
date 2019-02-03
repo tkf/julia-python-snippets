@@ -152,4 +152,28 @@ var documenterSearchIndex = {"docs": [
     "text": "m = Module(:SomeModule)\nBase.eval(m, quote\n    function f()\n        names(@__MODULE__, all=true)\n    end\nend)\n@assert Set(names(m, all=true)) >= Set([:SomeModule, :f])\n@assert Set(m.f()) >= Set([:SomeModule, :f])using JuliaPythonSnippets\npyexample\"\"\"\nimport types\nm = types.ModuleType(\"SomeModule\")\nexec(\'\'\'\ndef f():\n    return list(globals())\n\'\'\', vars(m))\n\nassert set(vars(m)) >= {\"__name__\", \"__doc__\"}\nassert set(m.f()) >= {\"__name__\", \"__doc__\"}\n\"\"\""
 },
 
+{
+    "location": "miscellaneous/#",
+    "page": "Miscellaneous",
+    "title": "Miscellaneous",
+    "category": "page",
+    "text": ""
+},
+
+{
+    "location": "miscellaneous/#Miscellaneous-1",
+    "page": "Miscellaneous",
+    "title": "Miscellaneous",
+    "category": "section",
+    "text": ""
+},
+
+{
+    "location": "miscellaneous/#Read-from-and-write-to-subprocess-simultaneously-1",
+    "page": "Miscellaneous",
+    "title": "Read from and write to subprocess simultaneously",
+    "category": "section",
+    "text": "function communicate(cmd::Cmd, input)\n    inp = Pipe()\n    out = Pipe()\n    err = Pipe()\n\n    process = run(pipeline(cmd, stdin=inp, stdout=out, stderr=err), wait=false)\n    close(out.in)\n    close(err.in)\n\n    stdout = @async String(read(out))\n    stderr = @async String(read(err))\n    write(inp, input)\n    close(inp)\n    wait(process)\n    return (\n        stdout = fetch(stdout),\n        stderr = fetch(stderr),\n        code = process.exitcode\n    )\nend\n\n@assert communicate(`cat`, \"hello\").stdout == \"hello\"using JuliaPythonSnippets\npyexample\"\"\"\nimport sys\n\nif sys.version_info >= (3, 5):\n    from subprocess import run, PIPE\n    output = run([\"cat\"], stdout=PIPE, input=\"hello\", universal_newlines=True).stdout\nelse:\n    from subprocess import Popen, PIPE\n    proc = Popen([\"cat\"], stdout=PIPE, stdin=PIPE, universal_newlines=True)\n    output, _ = proc.communicate(\"hello\")\n\nassert output == \"hello\"\n\"\"\""
+},
+
 ]}

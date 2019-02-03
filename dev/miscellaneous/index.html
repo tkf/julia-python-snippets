@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><title>Miscellaneous · julia-python-snippets</title><link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css" rel="stylesheet" type="text/css"/><link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css"/><link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css" rel="stylesheet" type="text/css"/><script>documenterBaseURL=".."</script><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.2.0/require.min.js" data-main="../assets/documenter.js"></script><script src="../siteinfo.js"></script><script src="../../versions.js"></script><link href="../assets/documenter.css" rel="stylesheet" type="text/css"/></head><body><nav class="toc"><h1>julia-python-snippets</h1><select id="version-selector" onChange="window.location.href=this.value" style="visibility: hidden"></select><form class="search" id="search-form" action="../search/"><input id="search-query" name="q" type="text" placeholder="Search docs"/></form><ul><li><a class="toctext" href="../">Home</a></li><li><a class="toctext" href="../arrays/">Arrays</a></li><li><a class="toctext" href="../introspection/">Introspection</a></li><li class="current"><a class="toctext" href>Miscellaneous</a><ul class="internal"><li><a class="toctext" href="#Read-from-and-write-to-subprocess-simultaneously-1">Read from and write to subprocess simultaneously</a></li></ul></li></ul></nav><article id="docs"><header><nav><ul><li><a href>Miscellaneous</a></li></ul><a class="edit-page" href="https://github.com/tkf/julia-python-snippets/blob/master/docs/src/miscellaneous.md#L"><span class="fa"></span> Edit on GitHub</a></nav><hr/><div id="topbar"><span>Miscellaneous</span><a class="fa fa-bars" href="#"></a></div></header><h1><a class="nav-anchor" id="Miscellaneous-1" href="#Miscellaneous-1">Miscellaneous</a></h1><h2><a class="nav-anchor" id="Read-from-and-write-to-subprocess-simultaneously-1" href="#Read-from-and-write-to-subprocess-simultaneously-1">Read from and write to subprocess simultaneously</a></h2><div><pre><code class="language-julia">function communicate(cmd::Cmd, input)
+    inp = Pipe()
+    out = Pipe()
+    err = Pipe()
+
+    process = run(pipeline(cmd, stdin=inp, stdout=out, stderr=err), wait=false)
+    close(out.in)
+    close(err.in)
+
+    stdout = @async String(read(out))
+    stderr = @async String(read(err))
+    write(inp, input)
+    close(inp)
+    wait(process)
+    return (
+        stdout = fetch(stdout),
+        stderr = fetch(stderr),
+        code = process.exitcode
+    )
+end
+
+@assert communicate(`cat`, &quot;hello&quot;).stdout == &quot;hello&quot;</code></pre></div><div><pre><code class="language-python">import sys
+
+if sys.version_info &gt;= (3, 5):
+    from subprocess import run, PIPE
+    output = run([&quot;cat&quot;], stdout=PIPE, input=&quot;hello&quot;, universal_newlines=True).stdout
+else:
+    from subprocess import Popen, PIPE
+    proc = Popen([&quot;cat&quot;], stdout=PIPE, stdin=PIPE, universal_newlines=True)
+    output, _ = proc.communicate(&quot;hello&quot;)
+
+assert output == &quot;hello&quot;
+</code></pre></div><footer><hr/><a class="previous" href="../introspection/"><span class="direction">Previous</span><span class="title">Introspection</span></a></footer></article></body></html>
