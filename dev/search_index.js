@@ -89,6 +89,22 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "arrays/#permutedims-/-.transpose-1",
+    "page": "Arrays",
+    "title": "permutedims / .transpose",
+    "category": "section",
+    "text": "@assert size(permutedims(zeros(3, 5, 7), (2, 1, 3))) == (5, 3, 7)using JuliaPythonSnippets\npyexample\"\"\"\nimport numpy\nassert numpy.zeros((3, 5, 7)).transpose(1, 0, 2).shape == (5, 3, 7)\n\"\"\""
+},
+
+{
+    "location": "arrays/#Adjoint-and-transpose-1",
+    "page": "Arrays",
+    "title": "Adjoint and transpose",
+    "category": "section",
+    "text": "A = [\n    1   2im\n    -3 -4im\n]\n@assert A\' == adjoint(A) == [\n    1     -3\n    -2im  4im\n]\n@assert transpose(A) == [\n    1    -3\n    2im  -4im\n]\n@assert adjoint.(A) == [\n    1  -2im\n    -3  4im\n]using JuliaPythonSnippets\npyexample\"\"\"\nimport numpy\nA = numpy.array([\n    [1, 2j],\n    [-3, -4j],\n])\nassert (A.T.conj() == numpy.array([\n    [1, -3],\n    [-2j, 4j],\n])).all()\nassert (A.T == numpy.array([\n    [1, -3],\n    [2j, -4j],\n])).all()\nassert (A.conj() == numpy.array([\n    [1, -2j],\n    [-3, 4j],\n])).all()\n\"\"\"note: Note\nAlthough there is numpy.matrix.H which is closer to Julia\'s adjoint, Numpy manual notes that:It is strongly advised not to use the matrix subclass."
+},
+
+{
     "location": "introspection/#",
     "page": "Introspection",
     "title": "Introspection",
