@@ -8,7 +8,7 @@ matrix:
   fast_finish: true
 notifications:
   email: false
-script: julia --project=docs -e '
+script: julia --project=docs --color=yes -e '
     using Pkg;
     Pkg.develop(PackageSpec(path=pwd()));
     Pkg.instantiate();
