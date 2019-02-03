@@ -12,6 +12,7 @@ makedocs(;
     sitename="julia-python-snippets",
     authors="Takafumi Arakaki",
     assets=[],
+    strict=true,
 )
 
 deploydocs(;
