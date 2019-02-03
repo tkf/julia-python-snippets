@@ -58,3 +58,26 @@ assert all(a0 == 0)
 """
 end
 ```
+
+## Indexing
+
+```@example indexing_1
+x0 = reshape(1:6, 2, 3)
+```
+
+```@eval
+using JuliaPythonSnippets
+@named indexing_1 begin
+pyexample"""
+import numpy
+x0 = numpy.arange(1, 7).reshape(2, 3)
+"""
+end
+```
+
+```@eval
+using JuliaPythonSnippets
+@named indexing_1 begin
+pyshow"x0"
+end
+```

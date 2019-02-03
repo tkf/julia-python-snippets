@@ -1,6 +1,6 @@
 module JuliaPythonSnippets
 
-export @pyexample_str, @named
+export @pyexample_str, @pyshow_str, @named
 
 using PyCall
 using Markdown
@@ -17,14 +17,27 @@ macro pyexample_str(str)
     end
 end
 
+macro pyshow_str(str)
+    quote
+        pyshow_impl(PyCall.@py_str $str 'o')
+    end
+end
+
+function pyshow_impl(obj::PyObject)
+    str = pybuiltin("repr")(obj)
+    return Markdown.parse("""
+    ```
+    $str
+    ```
+    """)
+end
+
 const _scopes = Dict{Symbol,Module}()
 
 macro named(name::Symbol, block)
-    scope = get!(_scopes, name) do
-        scope = Module(name)
-        Base.eval(scope, :(using JuliaPythonSnippets))
-        return scope
-    end
+    scope = get!(() -> Module(name), _scopes, name)
+    Base.eval(scope, :(using JuliaPythonSnippets))
+    Base.eval(scope, :(using PyCall))
     QuoteNode(Base.eval(scope, block))
 end
 
