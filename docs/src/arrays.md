@@ -173,3 +173,70 @@ using JuliaPythonSnippets                                            # hide
 @assert x3 == @named indexing_1 py"x3"                               # hide
 nothing                                                              # hide
 ```
+
+## `permutedims` / `.transpose`
+
+```@example
+@assert size(permutedims(zeros(3, 5, 7), (2, 1, 3))) == (5, 3, 7)
+```
+
+```@eval
+using JuliaPythonSnippets
+pyexample"""
+import numpy
+assert numpy.zeros((3, 5, 7)).transpose(1, 0, 2).shape == (5, 3, 7)
+"""
+```
+
+## Adjoint and transpose
+
+```@example
+A = [
+    1   2im
+    -3 -4im
+]
+@assert A' == adjoint(A) == [
+    1     -3
+    -2im  4im
+]
+@assert transpose(A) == [
+    1    -3
+    2im  -4im
+]
+@assert adjoint.(A) == [
+    1  -2im
+    -3  4im
+]
+```
+
+```@eval
+using JuliaPythonSnippets
+pyexample"""
+import numpy
+A = numpy.array([
+    [1, 2j],
+    [-3, -4j],
+])
+assert (A.T.conj() == numpy.array([
+    [1, -3],
+    [-2j, 4j],
+])).all()
+assert (A.T == numpy.array([
+    [1, -3],
+    [2j, -4j],
+])).all()
+assert (A.conj() == numpy.array([
+    [1, -2j],
+    [-3, 4j],
+])).all()
+"""
+```
+
+!!! note
+
+    Although there is
+    [`numpy.matrix.H`](https://docs.scipy.org/doc/numpy-1.16.1/reference/generated/numpy.matrix.H.html)
+    which is closer to Julia's `adjoint`,
+    [Numpy manual notes that](https://www.numpy.org/devdocs/reference/arrays.classes.html#matrix-objects):
+
+    > It is strongly advised _not_ to use the matrix subclass.
