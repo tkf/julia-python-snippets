@@ -19,6 +19,7 @@ makedocs(;
         "Home" => "index.md",
         "arrays.md",
         "introspection.md",
+        "miscellaneous.md",
     ],
     repo="https://github.com/tkf/julia-python-snippets/blob/{commit}{path}#L{line}",
     sitename="julia-python-snippets",
