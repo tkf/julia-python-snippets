@@ -12,8 +12,4 @@ addons:
   apt:
     packages:
     - python3-numpy
-script: julia --project=docs --color=yes -e '
-    using Pkg;
-    Pkg.develop(PackageSpec(path=pwd()));
-    Pkg.instantiate();
-    include("docs/make.jl");'
+script: docs/make.jl
