@@ -268,3 +268,55 @@ assert A.ndim == 0
 assert A.shape == ()
 """
 ```
+
+## Broadcasting
+
+* [Multi-dimensional Arrays · The Julia Language](https://docs.julialang.org/en/latest/manual/arrays/#Broadcasting-1)
+* [Mathematical Operations and Elementary Functions · The Julia Language](https://docs.julialang.org/en/latest/manual/mathematical-operations/#man-dot-operators-1)
+* [Broadcasting — NumPy Manual](https://www.numpy.org/devdocs/user/basics.broadcasting.html)
+* [numpy.broadcast — NumPy Manual](https://docs.scipy.org/doc/numpy/reference/generated/numpy.broadcast.html)
+
+Broadcasting in Julia starts from left (leading dimension):
+
+```@example
+xs = reshape(1:6, (2, 3))
+ys = 1:3:6
+@assert ifelse.(xs .> ys, xs, ys) == [
+    1 3 5
+    4 4 6
+]
+```
+
+Broadcasting in Python starts from right (trailing dimension):
+
+```@eval
+using JuliaPythonSnippets
+pyexample"""
+import numpy
+xs = (numpy.arange(6) + 1).reshape(3, 2)
+ys = numpy.arange(1, 7, 3)
+
+@numpy.vectorize
+def vifelse(b, x, y):
+    if b:
+        return x
+    else:
+        return y
+
+assert (vifelse(xs > ys, xs, ys).T == [  # notice `.T`
+    [1, 3, 5],
+    [4, 4, 6],
+]).all()
+"""
+```
+
+!!! note
+
+    As mentioned in
+    [numpy.vectorize — NumPy Manual](https://docs.scipy.org/doc/numpy/reference/generated/numpy.vectorize.html),
+    there is no performance gain for using `numpy.vectorize` in Python
+    (but sometimes it's quite useful!):
+
+    > The `vectorize` function is provided primarily for convenience,
+    > not for performance. The implementation is essentially a for
+    > loop.
