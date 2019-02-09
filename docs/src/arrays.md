@@ -240,3 +240,31 @@ assert (A.conj() == numpy.array([
     [Numpy manual notes that](https://www.numpy.org/devdocs/reference/arrays.classes.html#matrix-objects):
 
     > It is strongly advised _not_ to use the matrix subclass.
+
+## Zero-dimensional array
+
+```@example
+A = Array{Int,0}(undef)
+A[] = 12345
+@assert A[] == 12345
+@assert A[] isa Int
+@assert A[] - 12345 == 0
+@assert length(A) == 1
+@assert ndims(A) == 0
+@assert size(A) == ()
+```
+
+```@eval
+using JuliaPythonSnippets
+pyexample"""
+import numpy
+A = numpy.array(12345)
+assert A.item() == numpy.asscalar(A) == 12345
+assert isinstance(A.item(), int)
+assert isinstance(numpy.asscalar(A), int)
+assert A - 12345 == 0
+assert A.size == 1
+assert A.ndim == 0
+assert A.shape == ()
+"""
+```
