@@ -113,6 +113,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "arrays/#Broadcasting-1",
+    "page": "Arrays",
+    "title": "Broadcasting",
+    "category": "section",
+    "text": "Multi-dimensional Arrays · The Julia Language\nMathematical Operations and Elementary Functions · The Julia Language\nBroadcasting — NumPy Manual\nnumpy.broadcast — NumPy ManualBroadcasting in Julia starts from left (leading dimension):xs = reshape(1:6, (2, 3))\nys = 1:3:6\n@assert ifelse.(xs .> ys, xs, ys) == [\n    1 3 5\n    4 4 6\n]Broadcasting in Python starts from right (trailing dimension):using JuliaPythonSnippets\npyexample\"\"\"\nimport numpy\nxs = (numpy.arange(6) + 1).reshape(3, 2)\nys = numpy.arange(1, 7, 3)\n\n@numpy.vectorize\ndef vifelse(b, x, y):\n    if b:\n        return x\n    else:\n        return y\n\nassert (vifelse(xs > ys, xs, ys).T == [  # notice `.T`\n    [1, 3, 5],\n    [4, 4, 6],\n]).all()\n\"\"\"note: Note\nAs mentioned in numpy.vectorize — NumPy Manual, there is no performance gain for using numpy.vectorize in Python (but sometimes it\'s quite useful!):The vectorize function is provided primarily for convenience, not for performance. The implementation is essentially a for loop."
+},
+
+{
     "location": "introspection/#",
     "page": "Introspection",
     "title": "Introspection",
