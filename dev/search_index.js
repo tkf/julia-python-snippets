@@ -105,6 +105,14 @@ var documenterSearchIndex = {"docs": [
 },
 
 {
+    "location": "arrays/#Zero-dimensional-array-1",
+    "page": "Arrays",
+    "title": "Zero-dimensional array",
+    "category": "section",
+    "text": "A = Array{Int,0}(undef)\nA[] = 12345\n@assert A[] == 12345\n@assert A[] isa Int\n@assert A[] - 12345 == 0\n@assert length(A) == 1\n@assert ndims(A) == 0\n@assert size(A) == ()using JuliaPythonSnippets\npyexample\"\"\"\nimport numpy\nA = numpy.array(12345)\nassert A.item() == numpy.asscalar(A) == 12345\nassert isinstance(A.item(), int)\nassert isinstance(numpy.asscalar(A), int)\nassert A - 12345 == 0\nassert A.size == 1\nassert A.ndim == 0\nassert A.shape == ()\n\"\"\""
+},
+
+{
     "location": "introspection/#",
     "page": "Introspection",
     "title": "Introspection",
